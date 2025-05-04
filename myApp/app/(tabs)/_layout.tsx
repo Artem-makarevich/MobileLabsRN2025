@@ -35,9 +35,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="community"
+        name="tasks"
         options={{
-          title: 'Community',
+          title: 'Task',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="photo.fill.on.rectangle.fill" color={color} />,
         }}
       />
