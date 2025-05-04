@@ -1,10 +1,15 @@
 import React from 'react';
 import { View, Image, FlatList, Dimensions, StyleSheet } from 'react-native';
 
-const images = Array.from({ length: 12 }, (_, i) => ({
-  id: i.toString(),
-  url: `https://placekitten.com/200/20${i}`,
-}));
+const images = [
+  { id: '1', image: require('@/assets/images/image1.jpg') },
+  { id: '2', image: require('@/assets/images/image2.png') },
+  { id: '3', image: require('@/assets/images/image3.jpeg') },
+  { id: '4', image: require('@/assets/images/image4.jpg') },
+  { id: '4', image: require('@/assets/images/image1.jpg') },
+  { id: '4', image: require('@/assets/images/image3.jpeg') },
+
+];
 
 const numColumns = 3;
 const screenWidth = Dimensions.get('window').width;
@@ -17,7 +22,7 @@ const GalleryScreen = () => (
     numColumns={numColumns}
     renderItem={({ item }) => (
       <Image
-        source={{ uri: item.url }}
+        source={item.image}
         style={{ width: imageSize, height: imageSize }}
       />
     )}
