@@ -8,7 +8,7 @@ import {
   PinchGestureHandler,
   Directions,
 } from 'react-native-gesture-handler';
-import GestureObject from '../components/GestureObject';
+import GestureObject from '@/components/GestureObject';
 
 export default function HomeScreen() {
   const [score, setScore] = useState(0);
