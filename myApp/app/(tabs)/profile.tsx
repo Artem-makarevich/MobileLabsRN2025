@@ -1,86 +1,19 @@
-import React, { useState } from 'react';
-import { View, TextInput, Button, Text, StyleSheet, Alert } from 'react-native';
+import React from 'react';
+import { View, Text, Switch, StyleSheet } from 'react-native';
+import { useTheme } from '../theme/ThemeContext';
 
-const ProfileScreen = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-
-  const saveProfile = () => {
-    if (password !== confirmPassword) {
-      Alert.alert('Помилка', 'Паролі не співпадають!');
-      return;
-    }
-    alert(`Збережено:\nІм’я: ${firstName}\nПрізвище: ${lastName}\nЕлектронна пошта: ${email}`);
-  };
+export default function ProfileScreen() {
+  const { isDark, toggleTheme, theme } = useTheme();
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Ім’я:</Text>
-      <TextInput
-        style={styles.input}
-        value={firstName}
-        onChangeText={setFirstName}
-        placeholder="Введіть ваше ім’я"
-      />
-      <Text style={styles.label}>Прізвище:</Text>
-      <TextInput
-        style={styles.input}
-        value={lastName}
-        onChangeText={setLastName}
-        placeholder="Введіть ваше прізвище"
-      />
-      <Text style={styles.label}>Електронна пошта:</Text>
-      <TextInput
-        style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Введіть вашу електронну пошту"
-        keyboardType="email-address"
-      />
-      <Text style={styles.label}>Пароль:</Text>
-      <TextInput
-        style={styles.input}
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Введіть пароль"
-        secureTextEntry
-      />
-      <Text style={styles.label}>Підтвердження паролю:</Text>
-      <TextInput
-        style={styles.input}
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        placeholder="Підтвердьте пароль"
-        secureTextEntry
-      />
-      <Button title="Зберегти профіль" onPress={saveProfile} />
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <Text style={[styles.text, { color: theme.text }]}>Dark Theme</Text>
+      <Switch value={isDark} onValueChange={toggleTheme} />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 15,
-    paddingTop: 30,
-    backgroundColor: '#fff',
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 5,
-    fontWeight: 'bold',
-  },
-  input: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingLeft: 10,
-    marginBottom: 15,
-  },
+  container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  text: { fontSize: 18, marginBottom: 12 },
 });
-
-export default ProfileScreen;
