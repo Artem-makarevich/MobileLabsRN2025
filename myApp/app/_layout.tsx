@@ -5,7 +5,8 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import { ThemeProvider } from '@/theme/ThemeContext';
 import { useColorScheme } from '@/hooks/useColorScheme';
-
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {GameProvider} from "@/context/GameContext"
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
@@ -19,11 +20,17 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GameProvider>
+
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />
+
+      </GameProvider>
+      </GestureHandlerRootView>
     </ThemeProvider>
   );
 }

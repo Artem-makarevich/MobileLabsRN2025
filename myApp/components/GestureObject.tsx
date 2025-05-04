@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { Animated, View, StyleSheet } from 'react-native';
+import React, { useRef } from 'react';
+import { View, Text, StyleSheet, Animated } from 'react-native';
 import {
   TapGestureHandler,
   LongPressGestureHandler,
@@ -8,45 +8,78 @@ import {
   PinchGestureHandler,
   Directions,
 } from 'react-native-gesture-handler';
+import { useGame } from '@/context/GameContext';
 
-export default function GestureObject({ onScore }: { onScore: (points: number) => void }) {
+export default function GestureObject() {
+  const { addScore, updateTask } = useGame();
   const scale = useRef(new Animated.Value(1)).current;
-  const translate = useRef(new Animated.ValueXY()).current;
+  const position = useRef(new Animated.ValueXY()).current;
+
+  const onSingleTap = () => {
+    addScore(1);
+    updateTask('tap');
+  };
+
+  const onDoubleTap = () => {
+    addScore(2);
+    updateTask('doubleTap');
+  };
+
+  const onLongPress = () => {
+    addScore(5);
+    updateTask('longPress');
+  };
+
+  const onPanGesture = Animated.event(
+    [{ nativeEvent: { translationX: position.x, translationY: position.y } }],
+    { useNativeDriver: false }
+  );
+
+  const onFling = (dir: 'left' | 'right') => {
+    const points = Math.floor(Math.random() * 10) + 1;
+    addScore(points);
+    updateTask(dir === 'left' ? 'swipeLeft' : 'swipeRight');
+  };
+
+  const onPinchGesture = Animated.event([{ nativeEvent: { scale: scale } }], {
+    useNativeDriver: false,
+  });
+
+  const onPinchEnd = () => {
+    addScore(10);
+    updateTask('pinch');
+  };
 
   return (
     <FlingGestureHandler
-      direction={Directions.RIGHT | Directions.LEFT}
-      onHandlerStateChange={() => onScore(Math.floor(Math.random() * 10 + 1))}>
-      <PanGestureHandler onGestureEvent={Animated.event([{
-        nativeEvent: { translationX: translate.x, translationY: translate.y },
-      }], { useNativeDriver: false })}>
-        <PinchGestureHandler onGestureEvent={Animated.event([{
-          nativeEvent: { scale: scale },
-        }], { useNativeDriver: false })}>
-          <LongPressGestureHandler
-            minDurationMs={3000}
-            onHandlerStateChange={({ nativeEvent }) => {
-              if (nativeEvent.state === 4) onScore(20);
-            }}>
-            <TapGestureHandler
-              numberOfTaps={2}
-              onActivated={() => onScore(4)}>
-              <TapGestureHandler
-                onActivated={() => onScore(2)}>
-                <Animated.View
-                  style={[styles.box, {
+      direction={Directions.LEFT}
+      onActivated={() => onFling('left')}
+    >
+      <FlingGestureHandler
+        direction={Directions.RIGHT}
+        onActivated={() => onFling('right')}
+      >
+        <PanGestureHandler onGestureEvent={onPanGesture} onEnded={() => updateTask('pan')}>
+          <PinchGestureHandler onGestureEvent={onPinchGesture} onEnded={onPinchEnd}>
+            <LongPressGestureHandler onActivated={onLongPress} minDurationMs={1000}>
+              <TapGestureHandler numberOfTaps={2} onActivated={onDoubleTap}>
+                <TapGestureHandler numberOfTaps={1} onActivated={onSingleTap}>
+                  <Animated.View style={[styles.box, {
                     transform: [
-                      { scale },
-                      { translateX: translate.x },
-                      { translateY: translate.y },
+                      { translateX: position.x },
+                      { translateY: position.y },
+                      { scale: scale },
                     ],
                   }]}
-                />
+                  >
+
+                  </Animated.View>
+                </TapGestureHandler>
               </TapGestureHandler>
-            </TapGestureHandler>
-          </LongPressGestureHandler>
-        </PinchGestureHandler>
-      </PanGestureHandler>
+            </LongPressGestureHandler>
+          </PinchGestureHandler>
+        </PanGestureHandler>
+      </FlingGestureHandler>
     </FlingGestureHandler>
   );
 }
@@ -55,7 +88,14 @@ const styles = StyleSheet.create({
   box: {
     width: 100,
     height: 100,
-    backgroundColor: 'skyblue',
+    backgroundColor: '#add8e6',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 50,
+    alignSelf: 'center',
+    marginTop: 100,
+  },
+  text: {
+    fontSize: 40,
   },
 });

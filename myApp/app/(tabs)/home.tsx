@@ -1,26 +1,16 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Animated } from 'react-native';
-import {
-  TapGestureHandler,
-  LongPressGestureHandler,
-  PanGestureHandler,
-  FlingGestureHandler,
-  PinchGestureHandler,
-  Directions,
-} from 'react-native-gesture-handler';
+import { StyleSheet, View, Text } from 'react-native';
 import GestureObject from '@/components/GestureObject';
+import { useGame } from '@/context/GameContext';
 
 export default function HomeScreen() {
-  const [score, setScore] = useState(0);
-
-  const addPoints = (points: number) => {
-    setScore(prev => prev + points);
-  };
+ const { score } = useGame();
 
   return (
     <View style={styles.container}>
       <Text style={styles.score}>Score: {score}</Text>
-      <GestureObject onScore={addPoints} />
+
+      <GestureObject />
     </View>
   );
 }
@@ -30,9 +20,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 20,
   },
   score: {
     fontSize: 32,
     marginBottom: 20,
+    color: 'black',
   },
 });
