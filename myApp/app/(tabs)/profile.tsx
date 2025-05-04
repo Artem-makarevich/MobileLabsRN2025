@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Switch, StyleSheet } from 'react-native';
-import { useTheme } from '../theme/ThemeContext';
+import { useTheme } from '@/theme/ThemeContext';
 
 export default function ProfileScreen() {
   const { isDark, toggleTheme, theme } = useTheme();
