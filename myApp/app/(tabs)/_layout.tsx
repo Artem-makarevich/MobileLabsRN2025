@@ -27,16 +27,16 @@ export default function TabLayout() {
         }),
       }}>
       <Tabs.Screen
-        name="home"
+        name="store"
         options={{
-          title: 'Home',
+          title: 'Store',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
       <Tabs.Screen
-              name="gallery"
+              name="community"
               options={{
-                title: 'Gallery',
+                title: 'Community',
                 tabBarIcon: ({ color }) => <IconSymbol size={28} name="photo.fill.on.rectangle.fill" color={color} />,
               }}
             />
@@ -47,6 +47,14 @@ export default function TabLayout() {
                             tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.crop.circle.fill" color={color} />,
                           }}
                         />
+                          <Tabs.Screen
+                                                  name="chat"
+                                                  options={{
+                                                    title: 'Chat',
+                                                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.crop.circle.fill" color={color} />,
+                                                  }}
+                                                />
+
     </Tabs>
   );
 }

@@ -19,3 +19,4 @@ export default function useInfiniteScroll(fetchData) {
   }, []);
 
   return { items, loadMore, loading };
+  }
