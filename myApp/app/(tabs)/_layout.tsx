@@ -28,9 +28,9 @@ export default function TabLayout() {
         }),
       }}>
       <Tabs.Screen
-        name="store"
+        name="home"
         options={{
-          title: 'Store',
+          title: 'Home',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
@@ -41,27 +41,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="photo.fill.on.rectangle.fill" color={color} />,
         }}
       />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: 'Profile',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.crop.circle.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="chat"
-        options={{
-          title: 'Chat',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="message.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="safety"
-        options={{
-          title: 'Safety',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="lock.fill" color={color} />,
-        }}
-      />
+
     </Tabs>
   );
 }
