@@ -1,22 +1,23 @@
-// src/screens/ViewFileScreen.tsx
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Alert, ScrollView } from 'react-native';
-import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import * as FileSystem from 'expo-file-system';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/Button';
+import { useLocalSearchParams} from 'expo-router';
 
 export default function ViewFileScreen() {
-  const { filePath } = useLocalSearchParams<{ filePath: string }>();
+  const route = useRoute();
+const { path } = useLocalSearchParams<{ path: string }>();
   const navigation = useNavigation();
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!filePath) return;
+    if (!path) return;
 
     const loadContent = async () => {
       try {
-        const fileContent = await FileSystem.readAsStringAsync(filePath);
+        const fileContent = await FileSystem.readAsStringAsync(path);
         setContent(fileContent);
       } catch (error) {
         Alert.alert('Error', 'Unable to read file content');
@@ -26,11 +27,11 @@ export default function ViewFileScreen() {
     };
 
     loadContent();
-  }, [filePath]);
+  }, [path]);
 
   const handleSave = async () => {
     try {
-      await FileSystem.writeAsStringAsync(filePath!, content);
+      await FileSystem.writeAsStringAsync(path, content);
       Alert.alert('Saved', 'Changes have been saved successfully');
     } catch (error) {
       Alert.alert('Error', 'Failed to save file');
@@ -38,12 +39,12 @@ export default function ViewFileScreen() {
   };
 
   useEffect(() => {
-    if (filePath) {
-      const segments = filePath.split('/');
+    if (path) {
+      const segments = path.split('/');
       const name = segments[segments.length - 1];
       navigation.setOptions({ title: name });
     }
-  }, [filePath]);
+  }, [path]);
 
   if (loading) return <Text style={{ padding: 16 }}>Loading...</Text>;
 
